@@ -24,7 +24,20 @@ void draw()
   background(0);
   soundChunks.pct = mouseX*1.f/width;//random(1);//
   soundChunks.draw();
+  drawText();
+  
   println("frameRate: " + frameRate);
+}
+
+public void drawText()
+{
+  stroke(255);
+  if(!soundChunks.recording)
+    text("press 'r' to record.",0,10);
+  else
+    text("press 'r' to stop recording!",0,10);
+  
+  text("press 'c' to clear the recording",0,20);
 }
 
 public void keyReleased()
