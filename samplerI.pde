@@ -10,7 +10,7 @@ void setup()
   size(512, 200, P3D);
 
   minim = new Minim(this);
-  out = minim.getLineOut(Minim.MONO);
+  out = minim.getLineOut(Minim.MONO, 512);
   in = minim.getLineIn(Minim.MONO, 512);
   
   soundChunks = new SoundChunks();
