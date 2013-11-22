@@ -1,16 +1,25 @@
+//  written by Benjamin Van Citters
+
+
 class SoundChunks implements AudioListener, AudioSignal
 {
   private ArrayList<float[]> samps;
   private float[] lastSignal;
+  
+  //size relative to the signal sample size
+  float playbackEnvelopeSize = 1.f;
+  int curEnvelopeSampleCount = 2048;
+  int playbackEnvelopeIndex;
+  
   boolean recording = false;
   float pct = 0.f;
-  long totalSamples = 0;;
+  long totalSamples = 0;
   private long endSampIndex;// = (long)min(curIndex + signal.length/2, totalSamples);
   private long startSampIndex;// = (long)max(curIndex - signal.length/2, 0);
     
   public SoundChunks()
   {
-    samps = new ArrayList<float[]>();;
+    samps = new ArrayList<float[]>();
   }
   
   void samples(float[] sampL, float[] sampR) 
@@ -38,27 +47,39 @@ class SoundChunks implements AudioListener, AudioSignal
   {
     if(recording)
       return;
+    //force that playbackEnvelopeSize stays larger than or equal to zero
+    playbackEnvelopeSize = max(playbackEnvelopeSize,0);
+    curEnvelopeSampleCount = (int)(playbackEnvelopeSize*signal.length);
     
-    
+    if(curEnvelopeSampleCount<1)
+      return;
     long curIndex = (long)(pct*totalSamples);
-    endSampIndex = (long)min(curIndex + signal.length/2, totalSamples);
-    startSampIndex = (long)max(curIndex - signal.length/2, 0);
+    endSampIndex = (long)min(curIndex + curEnvelopeSampleCount/2, totalSamples);
+    startSampIndex = (long)max(curIndex - curEnvelopeSampleCount/2, 0);
+    float [] envelope = new float[curEnvelopeSampleCount];
     long currentIndex = 0;
-    int signalIndex = 0;
+    int fIndex = 0;
     
+    //fill envelope
     for(float[] sampArray : samps)
     {
       for(int i = 0; i < sampArray.length; i++)
       {
         if(currentIndex >= startSampIndex && currentIndex < endSampIndex)
         {
-          signal[signalIndex] = sampArray[i];
-          signalIndex++;
+          envelope[fIndex] = sampArray[i];
+          fIndex++;
         }
         currentIndex++;
       }
     }
-    
+   
+   playbackEnvelopeIndex = playbackEnvelopeIndex % curEnvelopeSampleCount;
+    for(int i = 0; i < signal.length; i++)
+    {
+      signal[i] = envelope[playbackEnvelopeIndex];
+      playbackEnvelopeIndex = (playbackEnvelopeIndex+1)%curEnvelopeSampleCount;
+    }
     lastSignal = java.util.Arrays.copyOf(signal,signal.length);
     println("sig len: " + signal.length + " last len = " + lastSignal.length + " diff: " + (endSampIndex-startSampIndex));
   }
