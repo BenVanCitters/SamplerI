@@ -5,7 +5,7 @@ class SoundChunks implements AudioListener, AudioSignal
 {
   private ArrayList<float[]> samps;
   private float[] lastSignal;
-  
+  private float[] lastSample;
   //size relative to the signal sample size
   float playbackEnvelopeSize = 1.f;
   int curEnvelopeSampleCount = 2048;
@@ -31,6 +31,7 @@ class SoundChunks implements AudioListener, AudioSignal
     {
       samps.add(samp);
       totalSamples += samp.length;
+      lastSample = java.util.Arrays.copyOf(samp,samp.length);
     }
   }
   
@@ -81,14 +82,21 @@ class SoundChunks implements AudioListener, AudioSignal
       playbackEnvelopeIndex = (playbackEnvelopeIndex+1)%curEnvelopeSampleCount;
     }
     lastSignal = java.util.Arrays.copyOf(signal,signal.length);
-    println("sig len: " + signal.length + " last len = " + lastSignal.length + " diff: " + (endSampIndex-startSampIndex));
+//    println("sig len: " + signal.length + " last len = " + lastSignal.length + " diff: " + (endSampIndex-startSampIndex));
   }
   
   void draw()
   {
-    if(recording || totalSamples < 1)
+    if(totalSamples < 1)
       return;
-      drawCurrentSignal();
+    
+    if(recording)
+    {
+      drawLastSample();
+      return;
+    }
+      
+    drawCurrentSignal();
     float spacing = 1;//width*1.f/totalSamples;
     int stride = (int)(totalSamples/width);
     stride = (int)max(stride,1);
@@ -115,9 +123,28 @@ class SoundChunks implements AudioListener, AudioSignal
     popMatrix(); 
   }
   
+  void drawLastSample()
+  {
+    noFill();
+    float spacing = width*1.f/(lastSample.length);
+    pushMatrix();
+    stroke(255,255,0);
+    translate(0,height/2.f);
+    beginShape();
+
+      for(int i = 0; i < lastSample.length; i++)
+      {
+        vertex(i*spacing,lastSample[i]*height);
+      }
+    
+    endShape();
+    popMatrix(); 
+  }
+  
   void drawCurrentSignal()
   {
-    int repititions = 5;
+    noFill();
+    int repititions = 3;
     float spacing = width*1.f/(lastSignal.length*repititions);
     pushMatrix();
     stroke(0,255,0);

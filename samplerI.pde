@@ -30,8 +30,11 @@ void setup()
 
 void draw()
 {
-  
-  background(0);
+  if(!soundChunks.recording)
+  fill(0,0,0,10);
+  else
+  fill(255,0,0,10); 
+  rect(0,0,width,height);
   if(randPosMode)
   {
     soundChunks.pct = random(1);
@@ -40,7 +43,9 @@ void draw()
   {
     soundChunks.pct = mouseX*1.f/width;
   }
-  soundChunks.playbackEnvelopeSize = mouseY*8.f/height;
+  
+  float maxEnvelopeScale = 16.f;
+  soundChunks.playbackEnvelopeSize = mouseY*maxEnvelopeScale/height;
   soundChunks.draw();
   drawText();
   
@@ -50,8 +55,9 @@ void draw()
 public void drawText()
 {
   stroke(255);
+  fill(255);
   if(!soundChunks.recording)
-    text("press 'r' to record.",0,10);
+    text("press 'r' to record audio.",0,10);
   else
     text("press 'r' to stop recording!",0,10);
   
