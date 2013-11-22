@@ -59,7 +59,7 @@ public void drawText()
   if(!soundChunks.recording)
     text("press 'r' to record audio.",0,10);
   else
-    text("press 'r' to stop recording!",0,10);
+    text("MAKE SOME NOISE!!!! press 'r' to stop recording!",0,10);
   
   String randString = " and hit space to enable random mode";
   if(randPosMode)
