@@ -1,76 +1,75 @@
-<?xml version="1.0" ?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
+<plist version="0.9">
   <dict>
+    <key>CFBundleName</key>
+    <string>SamplerI</string>
+    <key>CFBundleVersion</key>
+    <string>1.0</string>
+    <key>CFBundleAllowMixedLocalizations</key>
+    <string>true</string>
+    <key>CFBundleExecutable</key>
+    <string>JavaApplicationStub</string>
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
-    <key>CFBundleExecutable</key>
-    <string>samplerI</string>
-    <key>CFBundleIconFile</key>
-    <string>sketch.icns</string>
-    <key>CFBundleIdentifier</key>
-    <string>samplerI</string>
-    <key>CFBundleDisplayName</key>
-    <string>samplerI</string>
-    <key>CFBundleInfoDictionaryVersion</key>
-    <string>6.0</string>
-    <key>CFBundleName</key>
-    <string>samplerI</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
-
-    <!-- Customize this set as you wish -->
-    <key>CFBundleShortVersionString</key>
-    <string>1</string>
-    <key>CFBundleVersion</key>
-    <string>1</string>
     <key>CFBundleSignature</key>
     <string>????</string>
-    <key>NSHumanReadableCopyright</key>
-    <string>Your copyright here</string>
-    <key>CFBundleGetInfoString</key>
-    <string>Created with Processing</string>
-    <!-- End of the set that can be customized -->
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleIconFile</key>
+    <string>sketch.icns</string>
+    <key>CFBundleIdentifier</key> 
+    <string>SamplerI</string>
 
-    
-
-    <key>JVMMainClassName</key>
-    <string>samplerI</string>
-
-    <key>LSMinimumSystemVersion</key>
-    <string>10.7.3</string>
-
-    <key>NSHighResolutionCapable</key>
-    <true/>
-
-    <key>LSArchitecturePriority</key>
-    <array>
-      <string>x86_64</string>
-    </array>
-
-    <key>LSEnvironment</key>
-    <dict>
-      <key>LC_CTYPE</key>
-      <string>UTF-8</string>
-    </dict>
-
+    <!-- http://developer.apple.com/documentation/MacOSX/Conceptual/BPRuntimeConfig/Articles/PListKeys.html#//apple_ref/doc/uid/20001431-113616 -->
     <key>LSUIPresentationMode</key>
     <integer>0</integer>
 
-    <key>JVMOptions</key>
+    <!-- make sure that applications open in 32-bit mode on Snow Leopard,
+	 otherwise video and most other native libraries will choke 
+	 http://developer.apple.com/mac/library/documentation/General/Reference/InfoPlistKeyReference/Articles/LaunchServicesKeys.html#//apple_ref/doc/uid/TP40009250-SW1 -->
+    <key>LSArchitecturePriority</key>
     <array>
-            <string>-Xms64m</string>
-      <string>-Xmx4024m</string>
+      <string>i386</string>
+      <string>ppc</string>
+    </array> 
 
-      <string>-Xdock:icon=Contents/Resources/sketch.icns</string>
-      <string>-Dapple.laf.useScreenMenuBar=true</string>
-      <string>-Dcom.apple.macos.use-file-dialog-packages=true</string>
-      <string>-Dcom.apple.macos.useScreenMenuBar=true</string>
-      <string>-Dcom.apple.mrj.application.apple.menu.about.name=samplerI</string>
-      <string>-Dcom.apple.smallTabs=true</string>
-    </array>
-    <key>JVMArguments</key>
-    <array>
-    </array>
+    <key>Java</key>
+    <dict>
+      <key>VMOptions</key>
+      <string> -Xms64m -Xmx512m</string>
+      <key>MainClass</key>
+      <string>SamplerI</string>
+      <key>JVMVersion</key>
+      <string>1.5*</string>
+      <key>JVMArchs</key>
+      <array>
+	<string>i386</string>
+	<string>ppc</string>
+      </array>
+      <key>ClassPath</key>
+      <string>$JAVAROOT/SamplerI.jar:$JAVAROOT/core.jar:$JAVAROOT/jl1.0.jar:$JAVAROOT/jsminim.jar:$JAVAROOT/minim-spi.jar:$JAVAROOT/minim.jar:$JAVAROOT/mp3spi1.9.4.jar:$JAVAROOT/tritonus_aos.jar:$JAVAROOT/tritonus_share.jar</string>
+
+      <!-- http://developer.apple.com/releasenotes/Java/java141/system_properties/chapter_4_section_1.html#//apple_ref/doc/uid/TP30000285 -->
+      <key>Properties</key>
+      <dict>
+	<key>apple.laf.useScreenMenuBar</key>
+	<string>true</string>
+	<key>apple.awt.showGrowBox</key>
+	<string>false</string>
+	<key>com.apple.smallTabs</key>
+	<string>true</string>
+	<key>apple.awt.Antialiasing</key>
+	<string>false</string>
+	<key>apple.awt.TextAntialiasing</key>
+	<string>true</string>
+	<key>com.apple.hwaccel</key>
+	<string>true</string>
+	<key>apple.awt.use-file-dialog-packages</key>
+	<string>false</string>
+      </dict>
+    </dict>
   </dict>
 </plist>
